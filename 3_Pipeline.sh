@@ -81,7 +81,6 @@ CS7
 "
 
 
-
 #Assign 5' and 3' barcode length
 
 five_prime_barcode_length=4
@@ -112,59 +111,59 @@ minimum_length_after_sncRNA=15
 
 ###Quality Control (FastQC)###
 
-##for sample in $samples
-##do
+for sample in $samples
+do
 
 #Make output directory for FastQC reports
 
-##	mkdir ${directory}FastQC_Reports
+	mkdir ${directory}FastQC_Reports
 
 #Run FastQC
 #For further usage details: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/
 
-##for file in $(ls ${directory}${sample}/ | awk '/fastq/')
-##do
+for file in $(ls ${directory}${sample}/ | awk '/fastq/')
+do
 
-##	fastqc \
-##	-o ${directory}FastQC_Reports \
-##	${directory}${sample}/${file}
+	fastqc \
+	-o ${directory}FastQC_Reports \
+	${directory}${sample}/${file}
 
-##done
+done
 
-##done
+done
 
 
 ###Quality Control (MultiQC)###
 
 #Make output directory for MultiQC report
 
-##	mkdir ${directory}MultiQC_Report
+	mkdir ${directory}MultiQC_Report
 
 #Run MultiQC
 #For further usage details: https://multiqc.info/docs/
 
-##	multiqc ${directory}FastQC_Reports -o ${directory}MultiQC_Report
+	multiqc ${directory}FastQC_Reports -o ${directory}MultiQC_Report
 
 
 for sample in $samples
 do
 
 ##########
-##	[ -e ${directory}${sample}/${sample}.summary.txt ] && rm ${directory}${sample}/${sample}.summary.txt
+	[ -e ${directory}${sample}/${sample}.summary.txt ] && rm ${directory}${sample}/${sample}.summary.txt
 
-##	echo "$sample" >> ${directory}${sample}/${sample}.summary.txt
+	echo "$sample" >> ${directory}${sample}/${sample}.summary.txt
 
-##	echo "Start:" >> ${directory}${sample}/${sample}.summary.txt
-##	date >> ${directory}${sample}/${sample}.summary.txt
+	echo "Start:" >> ${directory}${sample}/${sample}.summary.txt
+	date >> ${directory}${sample}/${sample}.summary.txt
 
-##for file in $(ls ${directory}${sample}/ | awk '/fastq/')
-##do
+for file in $(ls ${directory}${sample}/ | awk '/fastq/')
+do
 
-##	gunzip -c ${directory}${sample}/${file} > ${directory}${sample}/${file}.tmp
-##	echo "${file} Reads: $(( $(wc -l ${directory}${sample}/${file}.tmp | awk '{print $1}') / 4 ))" >> ${directory}${sample}/${sample}.summary.txt
-##	rm ${directory}${sample}/${file}.tmp
+	gunzip -c ${directory}${sample}/${file} > ${directory}${sample}/${file}.tmp
+	echo "${file} Reads: $(( $(wc -l ${directory}${sample}/${file}.tmp | awk '{print $1}') / 4 ))" >> ${directory}${sample}/${sample}.summary.txt
+	rm ${directory}${sample}/${file}.tmp
 
-##done
+done
 ##########	
 
 
@@ -174,25 +173,25 @@ do
 
 #Make directory for FLASh outpout
 
-##	mkdir ${directory}${sample}/${sample}_FLASh
+	mkdir ${directory}${sample}/${sample}_FLASh
 
 #Run FLASh
 #For further usage details: http://gensoft.pasteur.fr/docs/FLASH/1.2.11/flash
 
-##	flash \
-##	--allow-outies \
-##	--output-directory=${directory}${sample}/${sample}_FLASh/ \
-##	--output-prefix=${sample} \
-##	--max-overlap=150 \
-##	--min-overlap=6 \
-##	--compress \
-##	${directory}${sample}/${sample}_R1.fastq.gz \
-##	${directory}${sample}/${sample}_R2.fastq.gz \
-##	2>&1 | tee ${directory}${sample}/${sample}_FLASh/FLASh_${sample}.log
+	flash \
+	--allow-outies \
+	--output-directory=${directory}${sample}/${sample}_FLASh/ \
+	--output-prefix=${sample} \
+	--max-overlap=150 \
+	--min-overlap=6 \
+	--compress \
+	${directory}${sample}/${sample}_R1.fastq.gz \
+	${directory}${sample}/${sample}_R2.fastq.gz \
+	2>&1 | tee ${directory}${sample}/${sample}_FLASh/FLASh_${sample}.log
 
 #The following line simply renames the output of FLASh to '.fastq.gz' so that the Cutadapt step doesn't need to be modified to accept single-end or FLASh'd paired-end reads
 
-##	mv ${directory}${sample}/${sample}_FLASh/${sample}.extendedFrags.fastq.gz ${directory}${sample}/${sample}_FLASh/${sample}.fastq.gz
+	mv ${directory}${sample}/${sample}_FLASh/${sample}.extendedFrags.fastq.gz ${directory}${sample}/${sample}_FLASh/${sample}.fastq.gz
 
 
 ##########
@@ -242,7 +241,7 @@ do
 	awk '{print ">"$3"-"$1"\n"$2}' \
 	> ${directory}${sample}/${sample}.cutadapt.deduped.fasta
 
-#	rm ${directory}${sample}/${sample}.cutadapt.fastq
+	rm ${directory}${sample}/${sample}.cutadapt.fastq
 
 
 ##########
@@ -259,7 +258,7 @@ do
 	awk '{print $1"_"$3"\n"$2}' \
 	> ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.fasta
 
-#	rm ${directory}${sample}/${sample}.cutadapt.deduped.fasta
+	rm ${directory}${sample}/${sample}.cutadapt.deduped.fasta
 
 
 ###Identify sncRNA (BLAST)###
@@ -284,7 +283,7 @@ do
 	awk '!x[$1]++' \
 	> ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.blast.filtered
 
-#	rm ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.blast
+	rm ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.blast
 
 #Make tabular version of barcoded FASTA file (from before BLAST)
 
@@ -292,7 +291,7 @@ do
 	${directory}${sample}/${sample}.cutadapt.deduped.barcoded.fasta \
 	> ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.tab
 
-#	rm ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.fasta
+	rm ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.fasta
 
 #Join tabular input file with filtered BLAST results
 #It is very important to include the -k1,1 tag to the sort command, I have found that sort alone sometimes produces different arrangements for different files
@@ -302,8 +301,8 @@ do
 	<(sort -k1,1 ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.tab -T ${directory}${sample}) \
 	> ${directory}${sample}/${sample}.blast.merged
 
-#	rm ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.blast.filtered
-#	rm ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.tab
+	rm ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.blast.filtered
+	rm ${directory}${sample}/${sample}.cutadapt.deduped.barcoded.tab
 
 
 ##########
@@ -315,8 +314,6 @@ do
 
 #Create FASTA file with sequence of sncRNA remove and name appended to the read ID
 
-#Double check
-
 	awk -v var1=$maximum_sncRNA_start_position '$7 <= var1' ${directory}${sample}/${sample}.blast.merged | \
 	awk '{stop=$8;readlength=length($13);print $0,"\t", readlength-(stop)}' | \
 	awk -v var1=$minimum_length_after_sncRNA '$14 >= var1' | \
@@ -324,7 +321,7 @@ do
 	awk '{print">"$1"."$2"\n"$15}' \
 	> ${directory}${sample}/${sample}.target.fasta
 
-##	rm ${directory}${sample}/${sample}.blast.merged
+	rm ${directory}${sample}/${sample}.blast.merged
 
 
 ##########
