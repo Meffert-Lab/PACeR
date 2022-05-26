@@ -213,7 +213,7 @@ done
 
 	[ -e ${directory}tmp.tmp ] && rm ${directory}tmp.tmp
 
-	cut -f 1-6 ${directory}PACeR_Peak_Calling/${sample}.split.rearranged.coverage.bed > ${directory}tmp.tmp
+	cut -f 1-6 ${directory}PACeR_Peak_Calling/${first}.split.rearranged.coverage.bed > ${directory}tmp.tmp
 
 for sample in ${samples}
 do
