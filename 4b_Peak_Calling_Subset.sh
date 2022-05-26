@@ -299,7 +299,7 @@ done
 
 	[ -e ${directory}${name}_PeakCalling/tmp.tmp ] && rm ${directory}${name}_PeakCalling/tmp.tmp
 
-	cut -f 1-6 ${directory}${name}_PeakCalling/${sample}.split.rearranged.coverage.bed > ${directory}${name}_PeakCalling/tmp.tmp
+	cut -f 1-6 ${directory}${name}_PeakCalling/${first}.split.rearranged.coverage.bed > ${directory}${name}_PeakCalling/tmp.tmp
 
 for sample in ${samples}
 do
