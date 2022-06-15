@@ -195,7 +195,7 @@ done
 
 
 ##########
-	gunzip -k ${directory}${sample}/${sample}_FLASh/${sample}.fastq.gz
+	gunzip -c ${directory}${sample}/${sample}_FLASh/${sample}.fastq.gz
 	echo "${sample} FLASh Reads: $(( $(wc -l ${directory}${sample}/${sample}_FLASh/${sample}.fastq | awk '{print $1}') / 4 ))" >> ${directory}${sample}/${sample}.summary.txt
 	rm ${directory}${sample}/${sample}_FLASh/${sample}.fastq
 ##########
