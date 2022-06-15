@@ -160,7 +160,7 @@ do
 for file in $(ls ${directory}${sample}/ | awk '/fastq/')
 do
 
-	gunzip -k ${directory}${sample}/${file} > ${directory}${sample}/${file}.tmp
+	gunzip -c ${directory}${sample}/${file} > ${directory}${sample}/${file}.tmp
 	echo "${file} Reads: $(( $(wc -l ${directory}${sample}/${file}.tmp | awk '{print $1}') / 4 ))" >> ${directory}${sample}/${sample}.summary.txt
 	rm ${directory}${sample}/${file}.tmp
 
